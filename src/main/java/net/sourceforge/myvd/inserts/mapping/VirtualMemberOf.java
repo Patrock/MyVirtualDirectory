@@ -140,6 +140,7 @@ public class VirtualMemberOf implements Insert {
 		
 		
 		if (chain.getRequest().containsKey(this.oldFilterName)) {
+			
 			chain.nextSearch(base, scope, filter, attributes, typesOnly, results, constraints);
 		} else {
 		
@@ -286,9 +287,15 @@ public class VirtualMemberOf implements Insert {
 		
 		if (! chain.getRequest().containsKey(this.skipPostSearchName)) {
 			boolean doAdd = false;
-			
-			if (attributes.size() == 0) {
+//			
+			if (attributes.size() == 0 ) {
 				doAdd = true;
+			}
+			else if (attributes.size() == 1 && attributes.contains(new Attribute("objectclass")))		// if no attributes are given, somehow objectclass is added, so add too if only attribute is objectclass 
+			{
+				doAdd = true;
+			
+			
 			} else {
 				for (Attribute attr : attributes) {
 					if (attr.getAttribute().getName().equalsIgnoreCase(this.attributeName)) {
